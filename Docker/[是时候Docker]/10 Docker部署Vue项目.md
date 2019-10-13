@@ -21,18 +21,18 @@
 
 ## 创建`docker-compose.yaml`
 ```yaml
-version : "3" #docker-compose的版本
-services: #容器的集合
-      mysql: #项目名称
-              image: mysql:5.7 #镜像名称，如果是通过dockerfile创建的可以使用build属性
-              container_name: mysql  #容器名称，如果没有这个属性的话，docker-compose会随机分配一个名字给容器
-              privileged: true    #允许操作的表示，如果不加的话会出现类似，permission deny的错误
+version : "3" # docker-compose的版本
+services: # 容器的集合
+      mysql: # 项目名称
+              image: mysql:5.7        # 镜像名称，如果是通过dockerfile创建的可以使用build属性
+              container_name: mysql   # 容器名称，如果没有这个属性的话，docker-compose会随机分配一个名字给容器
+              privileged: true        # 允许操作的表示，如果不加的话会出现类似，permission deny的错误
               ports:
-                      - 3307:3306  #开放宿主机和容器的映射端口
+                      - 3307:3306     # 开放宿主机和容器的映射端口
               environment:
-                      MYSQL_ROOT_PASSWORD: root  #mysql镜像中的环境变量
+                      MYSQL_ROOT_PASSWORD: root   # mysql镜像中的环境变量：此处表示root用户密码
               volumes:
-                    - ./mysql5:/var/lib/mysql
+                    - ./mysql5:/var/lib/mysql     # 开放宿主机和容器的挂载卷映射
       php:
               image: php:7.2-fpm
               container_name: php
@@ -40,7 +40,7 @@ services: #容器的集合
               ports:
                     - 9001:9000
               links:
-                     - mysql  #容器之间进行关联
+                     - mysql                      #容器之间进行关联
 
               volumes:
                      - ./nginx/apps:/usr/share/nginx/html  #挂载卷，需要注意的是，php在以模块的形式加载到nginx的时候，需要他们两个的目录结构一致，否则nginx无法加载php,但是 html等静态问价可以正常访问。
@@ -92,7 +92,16 @@ services: #容器的集合
 ![](https://user-gold-cdn.xitu.io/2019/10/13/16dc435c93545869?w=1309&h=420&f=png&s=58575)
 
 > 测试  `curl localhost:9099`  返回html代码
+
+### 创建php文件
+```php
+<?php
+echo 'hello Docker';
+```
 > 测试  `curl localhost:8088`  返回 hello Docker
+
+
+## 创建自己的镜像
 
 
 ### 修改仓库源
