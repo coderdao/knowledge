@@ -92,12 +92,14 @@ services: #容器的集合
 ![](https://user-gold-cdn.xitu.io/2019/10/13/16dc435c93545869?w=1309&h=420&f=png&s=58575)
 
 > 测试  `curl localhost:9099`  返回html代码
+> 测试  `curl localhost:8088`  返回 hello Docker
 
 
 ### 修改仓库源
 创建或修改 /etc/docker/daemon.json 文件，修改为如下形式
 
-# vi /etc/docker/daemon.json
+## 修改源 
+vi /etc/docker/daemon.json
 ```json
 {
     "registry-mirrors": ["http://hub-mirror.c.163.com"]
