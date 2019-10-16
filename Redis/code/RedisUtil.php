@@ -254,9 +254,9 @@ class RedisUtil{
      * @param string $value 值
      * @return mixed 返回新的order
      */
-    public function zinCry($key,$num,$value)
+    public function zinCrBy($key,$num,$value)
     {
-        return $this->redis->zinCry($key,$num,$value);
+        return $this->redis->zinCrBy($key,$num,$value);
     }
 
     /**
@@ -314,16 +314,16 @@ class RedisUtil{
      * 集合以order递减排列后，返回指定order之间的元素。
      * min和max可以是-inf和+inf　表示最大值，最小值
      * @param string $key
-     * @param int|string $start
-     * @param int|string $end
+     * @param int|string $indexStart
+     * @param int|string $indexEnd
      * @param array $option 参数
      *     withscores=>true，表示数组下标为Order值，默认返回索引数组
      *     limit=>array(0,1) 表示从0开始，取一条记录。
      * @return array|bool
      */
-    public function zRevRangeByScore($key,$start='-inf',$end="+inf",$option=array())
+    public function zRevRangeByScore( $key, $option = [], $indexEnd = '+inf', $indexStart = '-inf' )
     {
-        return $this->redis->zRevRangeByScore($key,$start,$end,$option);
+        return $this->redis->zRevRangeByScore( $key, $indexEnd, $indexStart, $option );
     }
 
     /**
@@ -524,6 +524,15 @@ class RedisUtil{
     }
 
     /**
+     * 检查 集合中 是否存在 元素
+     * @param mixed $key
+     */
+    public function sIsMember( $key, $value)
+    {
+        return $this->redis->sIsMember( $key, $value );
+    }
+
+    /**
      * 求2个集合的差集
      * @param mixed $key1
      * @param mixed $key2
@@ -540,12 +549,12 @@ class RedisUtil{
      */
     public function sAdd($key,$value)
     {
-        if(!is_array($value))
-            $arr=array($value);
-        else
-            $arr=$value;
+        !is_array($value) ? $arr = [ $value ] : $arr = $value;
+
         foreach($arr as $row)
             $this->redis->sAdd($key,$row);
+
+        return true;
     }
 
     /**
